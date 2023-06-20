@@ -1,6 +1,7 @@
 // tag::all[]
 // tag::allButValidation[]
 package tacos;
+import java.util.Date;
 import java.util.List;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -15,5 +16,9 @@ public class Taco {
 
     @Size(min=1, message="You must choose at least 1 ingredient")
     private List<String> ingredients;
+
+    private long id;
+
+    private Date createdAt;
 
 }
