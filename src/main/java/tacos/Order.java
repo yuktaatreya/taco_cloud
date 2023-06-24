@@ -1,5 +1,8 @@
 package tacos;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -23,7 +26,6 @@ public class Order {
     @NotBlank(message = "Zip code is required")
     private String zip;
 
-    @CreditCardNumber(message = "Invalid credit card number")
     private String ccNumber;
 
     @Pattern(regexp = "^(0[1-9]|1[0-2])([\\\\/])([1-9][0-9])$",message = "Must be formatted MM/YY")
@@ -36,4 +38,9 @@ public class Order {
 
     private Date createdAt;
 
+    private List<Taco> tacos = new ArrayList<>();
+
+    public void addDesign(Taco design){
+        this.tacos.add(design);
+    }
 }
