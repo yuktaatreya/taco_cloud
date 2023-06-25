@@ -15,8 +15,8 @@ import tacos.Order;
 import tacos.Taco;
 import tacos.Ingredient;
 import tacos.Ingredient.Type;
-import tacos.data.JdbcIngredientRepository;
-import tacos.data.JdbcTacoRepository;
+import tacos.data.IngredientRepository;
+import tacos.data.TacoRepository;
 
 @Slf4j
 @Controller
@@ -24,14 +24,14 @@ import tacos.data.JdbcTacoRepository;
 @RequestMapping("/design" )
 public class DesignTacoController {
 
-    private JdbcIngredientRepository jdbcIngredientRepository;
+    private final IngredientRepository ingredientRepository;
 
-    private JdbcTacoRepository jdbcTacoRepository;
+    private TacoRepository tacoRepository;
 
     @Autowired
-    public  DesignTacoController(JdbcIngredientRepository jdbcIngredientRepository,JdbcTacoRepository jdbcTacoRepository){
-        this.jdbcIngredientRepository=jdbcIngredientRepository;
-        this.jdbcTacoRepository=jdbcTacoRepository;
+    public  DesignTacoController(IngredientRepository ingredientRepository,TacoRepository tacoRepository){
+        this.ingredientRepository=ingredientRepository;
+        this.tacoRepository=tacoRepository;
     }
 
     @ModelAttribute(name="design")
@@ -45,8 +45,8 @@ public class DesignTacoController {
     }
     @GetMapping
     public String showDesignForm(Model model) {
-        List<Ingredient> ingredients = new ArrayList();
-        jdbcIngredientRepository.findAll().forEach(
+        List<Ingredient> ingredients = new ArrayList<Ingredient>();
+        ingredientRepository.findAll().forEach(
                 ingredient -> ingredients.add(ingredient)
         );
 
@@ -63,7 +63,7 @@ public class DesignTacoController {
 
         if (errors.hasErrors()) {
             List<Ingredient> ingredients = new ArrayList();
-            jdbcIngredientRepository.findAll().forEach(
+            ingredientRepository.findAll().forEach(
                     ingredient -> ingredients.add(ingredient)
             );
             Type[] types = Ingredient.Type.values();
@@ -74,7 +74,7 @@ public class DesignTacoController {
             return "design";
         }
 
-        Taco saved = jdbcTacoRepository.saveDesign(design);
+        Taco saved = tacoRepository.save(design);
         order.addDesign(saved);
         log.info("Processing design: " + design);
 
