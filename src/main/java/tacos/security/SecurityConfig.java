@@ -34,7 +34,8 @@ public class SecurityConfig {
 
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-        return http.authorizeRequests()
+        //todo: enable crsf
+        return http.csrf().disable().authorizeRequests()
                 .requestMatchers("/design", "/orders").hasRole("USER")
                 .anyRequest().permitAll()
                 .and().formLogin().loginPage("/login").defaultSuccessUrl("/design",true)
